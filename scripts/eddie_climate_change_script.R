@@ -1,4 +1,4 @@
-# Eddie Module on global Change
+# Eddie Climate Change Module
 
   
 ## Install libraries     
@@ -51,8 +51,11 @@ vostok_co2.df <- read_tsv("data/vostok.icecore.co2_cleaned.txt")
 
 # *************************
 # ACTIVITY A - TEMPERATURE
+# How much is current temperature changing?
+
 # Plot of global temperatures
 # first we set up the how we want to use the data to make the graph
+# and we will add a line of best fit (linear regression) to the data
 global_temp.plot <- global_temp.df %>%
   ggplot(aes(year, annual_temp)) + # here we are choosing the x axis as year and the y as the column titled J-D
   geom_line()+
@@ -62,14 +65,15 @@ global_temp.plot <- global_temp.df %>%
 # then we plot it, this is also interactive so you can see the values when your cursor is on the plot
 ggplotly(global_temp.plot)
 
-# slope of the line
+# determine the slope of the line
 # do the statistical analyses
-score_model<- lm(annual_temp ~ year, data=global_temp.df)
+score_model <- lm(annual_temp ~ year, data=global_temp.df)
 summary(score_model)
 
 # how do you read this output?
 # you are interested in the equation of the line
 #   - the Estimate column shows values for the intercept (b) and the slope (for the variable)
+# what are the units for the slope?
 
 # If you would like to use only a subset of the data, you can do here
 # Enter the years here, writing over the blue text.
@@ -88,16 +92,18 @@ global_temp_subset.plot <- global_temp_subset.df %>%
   geom_point()+
   geom_smooth(method='lm')
   
-# plot the graph interactively
+# plot the interactive graph
 ggplotly(global_temp_subset.plot)
 
-# slope of the line
+# determine the slope of the line
 # do the statistical analyses
-score_model<- lm(annual_temp ~ year, data=global_temp_subset.df)
+score_model <- lm(annual_temp ~ year, data=global_temp_subset.df)
 summary(score_model)
 
 # *************************
 # ACTIVITY B - CO2 CONCENTRATIONS  
+# How much are current CO2 concentrations changing?
+
 # here you are repeating all the steps that were done above. 
 # you can copy and paste the code from above!
 # You have to change: 
@@ -112,6 +118,8 @@ summary(score_model)
 
 # *************************
 # ACTIVITY C - VOSTOK TEMPERATURES
+# What is the fastest rate of temperature change in pre-historic times?
+
 # Set up the plot of Vostok temperatures
 vostok_temp.plot <- vostok_temp.df %>%
   ggplot(aes(ice_age_year_bp, temp_c)) +
@@ -119,16 +127,16 @@ vostok_temp.plot <- vostok_temp.df %>%
   geom_point() +
   scale_x_continuous(label=comma)
 
-# vostok_temp.plot
+# plot the interactive graph
 ggplotly(vostok_temp.plot)
 
-# linear regression
+# determine the slope of the line
 # do the statistical analyses
-score_model<- lm(temp_c ~ ice_age_year_bp, data=vostok_temp.df)
+score_model <- lm(temp_c ~ ice_age_year_bp, data=vostok_temp.df)
 summary(score_model)
 
 
-# Plot a Subset of Vostok temperatures
+# Plot a subset of Vostok temperatures
 # Enter the years here, writing over the blue text
 min_year_vostok <- 128405
 max_year_vostok <- 136819
@@ -148,13 +156,15 @@ vostok_temp_subset.plot <- vostok_temp_subset.df %>%
 # vostok_temp.plot
 ggplotly(vostok_temp_subset.plot)
 
-# slope of the line on the subset of data
+# determine the slope of the line on the subset of data
 # do the statistical analyses
-score_model<- lm(temp_c ~ ice_age_year_bp, data=vostok_temp_subset.df)
+score_model <- lm(temp_c ~ ice_age_year_bp, data=vostok_temp_subset.df)
 summary(score_model)
 
 # *************************
 # VOSTOK CO2 CONCENTRATIONS
+# What is the fastest rate of CO2 change in pre-historic times?
+
 # here you are repeating all the steps that were done above for the Vostok temperature. 
 # you can copy and paste the code from above!
 # You have to change: 
