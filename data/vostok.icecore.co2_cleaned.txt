@@ -1,4 +1,4 @@
-depth_m	ice_age_year_bp	gas_age_year_bp	co2_ppmv
+depth_m	ice_age_years_before_present	gas_age_years_before_present	co2_ppm
 149.1	5679	2342	284.7
 173.1	6828	3634	272.8
 177.4	7043	3833	268.1

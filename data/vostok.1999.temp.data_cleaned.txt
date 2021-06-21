@@ -1,4 +1,4 @@
-depth_m	ice_age_year_bp	delta_d_per_ml	temp_variation_degc	temp_c
+depth_m	ice_age_years_before_present	delta_d_per_ml	temp_variation_degc	temp_c
 0	0	-438	0	-55.16666667
 1	17	-438	0	-55.16666667
 2	35	-438	0	-55.16666667
