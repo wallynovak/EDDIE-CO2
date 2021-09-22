@@ -198,6 +198,66 @@ vostok_temp.df <- read_tsv("data/vostok.1999.temp.data_cleaned.txt")
 #
 #
 
+# plot global temps
+# first we set up the how we want to use the data to make the graph
+loa_co2.plot <- global_temp.df %>% # set up a plot using the dataframe called loa_co2.df
+  ggplot(aes(year, annual_temp_c) + # x is year and y is annual_co2_ppm
+  geom_point()+ # plot points 
+  geom_smooth(method='lm') # and add a line of best fit through the whole dataset
+
+# then we plot it, this is also interactive so you can see the values 
+# when your cursor is on the plot
+ggplotly(loa_co2.plot)
+
+# the slope of this line will be the rate of change
+# determine the slope of the line
+# do the statistical analyses
+# after you run both of these lines of code, the output will show up in the console below
+score_model <- lm(annual_temp_c ~ year, data=global_temp.df)
+summary(score_model)
+
+# reading the output
+# you are interested in the equation of the line
+#   - the Estimate column shows values for the intercept (b) and the slope (for the variable)
+#   - so you are interested in the value for slope
+# (what are the units for the slope?)
+
+
+# Question: What is the current rate of temperature change?
+# write down your answer, with units!
+# you can type it right in this document!
+#
+#
+
+# If you would like to use only a subset of the data, you can do that here
+# Enter the years here, writing over the blue text. default min = 1980, max 2020
+min_year_global <- 1980
+max_year_global <- 2020
+
+# create a new dataframe that contains just this subset of data
+loa_co2_subset.df <- global_temp.df %>%
+  filter(year >= min_year_global & year <= max_year_global)
+
+#set up the graph
+loa_co2_subset.plot <- loa_co2_subset.df %>%
+  filter(year >= min_year_global & year <= max_year_global) %>%
+  ggplot(aes(year, annual_temp_c)) +
+  geom_point()+
+  geom_smooth(method='lm') 
+  
+# plot the interactive graph
+ggplotly(loa_co2_subset.plot)
+
+# determine the slope of the line
+# do the statistical analyses
+score_model <- lm(annual_co2_ppm ~ year, data=loa_co2_subset.df)
+summary(score_model)
+
+
+# Question: What is the current rate of temperature change within a subset of the period?
+# write down your answer, with units!
+# 
+#
 
 # *************************
 # ACTIVITY E - VOSTOK TEMPERATURES
