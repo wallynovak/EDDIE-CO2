@@ -49,6 +49,7 @@ vostok_co2.df <- read_tsv("data/vostok.icecore.co2_cleaned.txt")
 # *************************
 # ACTIVITY A - CO2 CONCENTRATIONS
 # How much is current CO2 changing?
+# *************************
 
 # plot global CO2 concentrations
 # first we set up the how we want to use the data to make the graph
@@ -81,7 +82,7 @@ summary(score_model)
 #
 #
 
-# ACTIVITY B
+# ACTIVITY A1 - LOOK AT A SUBSET OF THE DATA
 # If you would like to use only a subset of the data, you can do that here
 # Enter the years here, writing over the blue text.
 min_year_global <- 1980
@@ -113,8 +114,9 @@ summary(score_model)
 #
 
 # *************************
-# ACTIVITY C - VOSTOK CO2 CONCENTRATIONS
+# ACTIVITY B - VOSTOK CO2 CONCENTRATIONS
 # What is the fastest rate of CO2 change in pre-historic times?
+# *************************
 
 # Set up the plot of Vostok CO2 concentrations
 vostok_co2.plot <- vostok_co2.df %>%
@@ -130,7 +132,8 @@ ggplotly(vostok_co2.plot)
 # You should identify a period of rapid change, and use that to determine the rate of change.
 
 # Plot a subset of Vostok CO2 concentrations
-# Enter the years here, writing over the blue text (up to 6 digits)
+# Enter the years here, writing over the blue text (up to 6 digits) 
+# default values min = 2342, max = 17695
 min_year_vostok <- 2342
 max_year_vostok <- 17695
 
@@ -169,7 +172,8 @@ summary(score_model)
 
 
 # *************************
-# OPTIONAL: EXPLORE TEMPERATURE CHANGES
+# ACTIVITY C - TEMPERATURE EXPLORE TEMPERATURE CHANGES
+# How much is current temperature changing?
 # *************************
 
 # upload the data files
@@ -178,9 +182,6 @@ global_temp.df <-read_csv("data/global_temp_cleaned.csv")
 
 # Vostok temperatures
 vostok_temp.df <- read_tsv("data/vostok.1999.temp.data_cleaned.txt")
-
-# ACTIVITY D - TEMPERATURE
-# How much is current temperature changing?
 
 # here you are repeating all the steps that were done above. 
 # you can copy and paste the code from above!
@@ -262,6 +263,7 @@ summary(score_model)
 # *************************
 # ACTIVITY E - VOSTOK TEMPERATURES
 # What is the fastest rate of temperature change in pre-historic times?
+# *************************
 
 # here you are repeating all the steps that were done above for the Vostok temperature. 
 # you can copy and paste the code from above!
@@ -269,11 +271,61 @@ summary(score_model)
 # 1) wherever it is referring to the dataset.
 #   - the phrase 'vostok_co2.df' should be replaced with 'vostok_temp.df' (the new file name)
 # 2) where you are making a graph
-#   - the term 'gas_age_year_before_present' should be replaced with 'ice_age_year_before_present' (the new x column heading)
+#   - the term 'gas_age_years_before_present' should be replaced with 'ice_age_years_before_present' (the new x column heading)
 #   - the term 'co2-ppm' should be replaced with 'temp_c' (the new y column heading)
 # 3) for the subset dataset and plot, 
 #   - rename 'vostok_co2_subset.df' to 'vostok_temp_subset.df' 
 
+         # Set up the plot of Vostok CO2 concentrations
+vostok_co2.plot <- vostok_temp.df %>%
+  ggplot(aes(ice_age_years_before_present, temp_c)) +
+  geom_point()+
+  geom_line()+ # connect the points with lines
+  scale_x_continuous(label=comma) # format the x axis tick marks this way
+
+# Plot the interactive graph
+ggplotly(vostok_co2.plot)
+
+# Ok, so you can see that this graph shows really variable CO2 conentrations over long periods of time
+# You should identify a period of rapid change, and use that to determine the rate of change.
+
+# Plot a subset of Vostok CO2 concentrations
+# Enter the years here, writing over the blue text (up to 6 digits) 
+# default values min = 2342, max = 17695
+min_year_vostok <- 2342
+max_year_vostok <- 17695
+
+# Now make a new dataframe with this subset of the data
+vostok_temp_subset.df <- vostok_temp.df %>%
+  filter(ice_age_years_before_present >= min_year_vostok & ice_age_years_before_present <= max_year_vostok)
+  
+# Get things set up for the plot of co2 for subset of the data
+vostok_co2_subset.plot <- vostok_temp_subset.df %>%
+  filter(ice_age_years_before_present >= min_year_vostok & ice_age_years_before_present <= max_year_vostok) %>%
+  ggplot(aes(ice_age_years_before_present, temp_c)) +
+  geom_point()+
+  geom_line()+
+  geom_smooth(method='lm') 
+
+# Plot the interactive graph
+ggplotly(vostok_co2_subset.plot)
+
+# Determine the slope of the line on the subset of data
+# Do the statistical analyses
+score_model <- lm(temp_c ~ ice_age_years_before_present, data=vostok_temp_subset.df)
+summary(score_model)
+
+
+# Question: What is the fastest pre-historic rate of CO2 change?
+# write down your answer, with units!
+# 
+#
+
+
+# Now you can address the overaching question! (the Big Picture Question)
+# BPQ: How do current changes in CO2 compare to past, pre-historic changes in CO2? 
+#
+#
 
 # Question: What is the fastest pre-historic rate of temperature change? 
 # Answer:
