@@ -202,7 +202,7 @@ vostok_temp.df <- read_tsv("data/vostok.1999.temp.data_cleaned.txt")
 # plot global temps
 # first we set up the how we want to use the data to make the graph
 loa_co2.plot <- global_temp.df %>% # set up a plot using the dataframe called loa_co2.df
-  ggplot(aes(year, annual_temp_c) + # x is year and y is annual_co2_ppm
+  ggplot(aes(year, annual_temp_c)) + # x is year and y is annual_co2_ppm
   geom_point()+ # plot points 
   geom_smooth(method='lm') # and add a line of best fit through the whole dataset
 
@@ -251,7 +251,7 @@ ggplotly(loa_co2_subset.plot)
 
 # determine the slope of the line
 # do the statistical analyses
-score_model <- lm(annual_co2_ppm ~ year, data=loa_co2_subset.df)
+score_model <- lm(annual_temp_c ~ year, data=loa_co2_subset.df)
 summary(score_model)
 
 
