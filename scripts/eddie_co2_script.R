@@ -70,23 +70,19 @@ score_model <- lm(annual_co2_ppm ~ year, data=loa_co2.df)
 summary(score_model)
 
 # reading the output
-# you are interested in the equation of the line
-#   - the Estimate column shows values for the intercept (b) and the slope (for the variable)
-#   - so you are interested in the value for slope
-# (what are the units for the slope?)
+# you are interested in the equation of the line (y = mx + b)
+#   - the Estimate column shows estimates for the intercept (b) and the slope (year)
+#   - so you are interested in the value for slope (change in y over change in x)
 
-
-# Question: What is the current rate of CO2 change?
-# write down your answer, with units!
-# you can type it right in this document!
-#
-#
+#####################################
+# ANSWER QUESTION 1a on your handout.
+#####################################
 
 # ACTIVITY A1 - LOOK AT A SUBSET OF THE DATA
 # If you would like to use only a subset of the data, you can do that here
 # Enter the years here, writing over the blue text.
-min_year_global <- 1980
-max_year_global <- 2020
+min_year_global <- 1958
+max_year_global <- 1980
 
 # create a new dataframe that contains just this subset of data
 loa_co2_subset.df <- loa_co2.df %>%
@@ -107,11 +103,17 @@ ggplotly(loa_co2_subset.plot)
 score_model <- lm(annual_co2_ppm ~ year, data=loa_co2_subset.df)
 summary(score_model)
 
-
-# Question: What is the current rate of CO2 change within a subset of the period?
-# write down your answer, with units!
-# 
+#####################################
+# ANSWER QUESTION 1b on your handout.
+#####################################
 #
+# Go back and change the dates above  
+# to look at the period 1998 and 2020
+# You must click run on each line again
+# then...
+#####################################
+# ANSWER QUESTIONS 1c and 1d on your handout.
+#####################################
 
 # *************************
 # ACTIVITY B - VOSTOK CO2 CONCENTRATIONS
@@ -128,10 +130,15 @@ vostok_co2.plot <- vostok_co2.df %>%
 # Plot the interactive graph
 ggplotly(vostok_co2.plot)
 
+#####################################
+# ANSWER QUESTIONS 2a and 2b on your handout.
+#####################################
+
 # Ok, so you can see that this graph shows really variable CO2 conentrations over long periods of time
-# You should identify a period of rapid change, and use that to determine the rate of change.
+# You can place your cursor over different points to see the specific values for points.
 
 # Plot a subset of Vostok CO2 concentrations
+# You should identify a period of *rapid* change, and use that to determine the rate of change.
 # Enter the years here, writing over the blue text (up to 6 digits) 
 # default values min = 2342, max = 17695
 min_year_vostok <- 2342
@@ -157,17 +164,15 @@ ggplotly(vostok_co2_subset.plot)
 score_model <- lm(co2_ppm ~ gas_age_years_before_present, data=vostok_co2_subset.df)
 summary(score_model)
 
-
-# Question: What is the fastest pre-historic rate of CO2 change?
-# write down your answer, with units!
-# 
-#
-
+#####################################
+# ANSWER QUESTIONS 2c, 2d and 2e on your handout.
+#####################################
 
 # Now you can address the overaching question! (the Big Picture Question)
-# BPQ: How do current changes in CO2 compare to past, pre-historic changes in CO2? 
 #
-#
+#####################################
+# ANSWER QUESTION 3 on your handout.
+#####################################
 
 
 
@@ -223,17 +228,14 @@ summary(score_model)
 #   - so you are interested in the value for slope
 # (what are the units for the slope?)
 
-
-# Question: What is the current rate of temperature change?
-# write down your answer, with units!
-# you can type it right in this document!
-#
-#
+#####################################
+# ANSWER QUESTION 4a on your handout.
+#####################################
 
 # If you would like to use only a subset of the data, you can do that here
 # Enter the years here, writing over the blue text. default min = 1980, max 2020
-min_year_global <- 1980
-max_year_global <- 2020
+min_year_global <- 1880
+max_year_global <- 1980
 
 # create a new dataframe that contains just this subset of data
 loa_co2_subset.df <- global_temp.df %>%
@@ -254,11 +256,16 @@ ggplotly(loa_co2_subset.plot)
 score_model <- lm(annual_temp_c ~ year, data=loa_co2_subset.df)
 summary(score_model)
 
+#####################################
+# ANSWER QUESTION 4b on your handout.
+#####################################
+# to look at the period 1980 and 2020
+# You must click run on each line again
+# then...
+#####################################
+# ANSWER QUESTIONS 4c and 4d on your handout.
+#####################################
 
-# Question: What is the current rate of temperature change within a subset of the period?
-# write down your answer, with units!
-# 
-#
 
 # *************************
 # ACTIVITY E - VOSTOK TEMPERATURES
@@ -286,14 +293,17 @@ vostok_co2.plot <- vostok_temp.df %>%
 # Plot the interactive graph
 ggplotly(vostok_co2.plot)
 
-# Ok, so you can see that this graph shows really variable CO2 conentrations over long periods of time
-# You should identify a period of rapid change, and use that to determine the rate of change.
-
-# Plot a subset of Vostok CO2 concentrations
+#####################################
+# ANSWER QUESTIONS 5a and 5b on your handout.
+#####################################
+# Plot a subset of Vostok temperatures
+# Ok, so you can see that this graph shows really variable temperatures over long periods of time
+# You should identify a period of *rapid* change, and use that to determine the rate of change.
 # Enter the years here, writing over the blue text (up to 6 digits) 
 # default values min = 2342, max = 17695
 min_year_vostok <- 2342
 max_year_vostok <- 17695
+
 
 # Now make a new dataframe with this subset of the data
 vostok_temp_subset.df <- vostok_temp.df %>%
@@ -315,20 +325,14 @@ ggplotly(vostok_co2_subset.plot)
 score_model <- lm(temp_c ~ ice_age_years_before_present, data=vostok_temp_subset.df)
 summary(score_model)
 
+#####################################
+# ANSWER QUESTIONS 5c, 5d and 5e on your handout.
+#####################################
 
-# Question: What is the fastest pre-historic rate of CO2 change?
-# write down your answer, with units!
-# 
+# Now you can address another overaching question! (the Big Picture Question)
 #
+#####################################
+# ANSWER QUESTIONS 6 adn 7 on your handout.
+#####################################
 
-
-# Now you can address the overaching question! (the Big Picture Question)
-# BPQ: How do current changes in CO2 compare to past, pre-historic changes in CO2? 
-#
-#
-
-# Question: What is the fastest pre-historic rate of temperature change? 
-# Answer:
-#
-#
 
