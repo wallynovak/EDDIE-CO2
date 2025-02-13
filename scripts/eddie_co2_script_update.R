@@ -316,7 +316,7 @@ score_model <- lm(temp_c ~ ice_age_years_before_present, data=vostok_temp_subset
 summary(score_model)
 
 #####################################
-# ANSWER QUESTION 17 - 19 on canvas
+# ANSWER QUESTION 17 - 20 on canvas
 #####################################
 
 
