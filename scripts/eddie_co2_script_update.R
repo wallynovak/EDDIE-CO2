@@ -225,8 +225,8 @@ summary(score_model)
 
 # If you would like to use only a subset of the data, you can do that here
 # Enter the years here, writing over the blue text. default min = 1980, max 2020
-min_year_global <- 1980
-max_year_global <- 2020
+min_year_global <- 1880
+max_year_global <- 1980
 
 # create a new dataframe that contains just this subset of data
 loa_co2_subset.df <- global_temp.df %>%
