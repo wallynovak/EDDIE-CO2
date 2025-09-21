@@ -1,33 +1,18 @@
-# Eddie Climate Change Module
+# Eddie Climate Change Module - last update Fall 2025
 # How do current changes in CO2 compare to past, pre-historic, natural changes in CO2? 
 
-  
+# ************************* 
 ## Install libraries     
 # Install libraries to examine data. 
 # this only has to be done one time and a # can be put in front of the code to comment it out so it does not run in the future.   
-install.packages("broom") # cleans up output for easy presentation
-install.packages("janitor") # cleans up column names and removes empty columns if needed
-install.packages("lubridate") # allows easy conversion of variables to date format 
-install.packages("patchwork") # allows you to plot several graphs on one page
-install.packages("plotly") # makes your graph interactive
-install.packages("readr") # allows you to read in data files
-install.packages("scales") # works with the x and y scales on the plots
-install.packages("tidyverse") # loads of tools in this one to add more functionality
+install.packages(c("broom", "janitor", "lubridate", "patchwork", "plotly", "readr", "scales", "tidyverse"))
 
 # *************************
 ## LOAD LIBRARIES  
 # Load the libraries each time you run a script or program   
-# don't worry too much if you get some red text on the console screen below. 
-library(broom) 
-library(janitor) 
-library(lubridate)
-library(patchwork) 
-library(plotly) 
-library(readr) 
-library(scales) 
-library(tidyverse) 
-
-# turn off sci notation
+# don't worry too much if you get some red text on the console screen below.
+lapply(c("broom", "janitor", "lubridate", "patchwork", "plotly", "readr", "scales", "tidyverse"), require, character.only = TRUE)
+# Turn off scientific notation
 options(scipen=999)
 
 # *************************
@@ -124,13 +109,18 @@ summary(score_model)
 # What is the fastest rate of CO2 change in pre-historic times?
 # *************************
 
+# Makes a dataframe with the years in the past negative for ease of viewing
+vostok_co2_neg.df <- vostok_co2.df 
+vostok_co2_neg.df[, 3] <- vostok_co2_neg.df[, 3] * -1
+  
 # Set up the plot of Vostok CO2 concentrations
-vostok_co2.plot <- vostok_co2.df %>%
+vostok_co2.plot <- vostok_co2_neg.df %>%
   ggplot(aes(gas_age_years_before_present, co2_ppm)) +
   geom_point()+
   geom_line()+ # connect the points with lines
   scale_x_continuous(label=comma) # format the x axis tick marks this way
-
+  #scale_x_reverse(label=comma)
+  #scale_x_continuous(limits = rev) # format the x axis tick marks this way
 # Plot the interactive graph
 ggplotly(vostok_co2.plot)
 
@@ -144,13 +134,15 @@ ggplotly(vostok_co2.plot)
 # Plot a subset of Vostok CO2 concentrations
 # You should identify a period of *rapid* change, and use that to determine the rate of change.
 # Enter the years here, writing over the blue text (up to 6 digits) 
-# default values min = 2342, max = 17695
-min_year_vostok <- 130992
-max_year_vostok <- 135003
-
+# default values min = -135003, max = -130992
+min_year_vostok <- -135003
+max_year_vostok <- -130992
+  
 # Now make a new dataframe with this subset of the data
-vostok_co2_subset.df <- vostok_co2.df %>%
+vostok_co2_subset.df <- vostok_co2_neg.df %>%
   filter(gas_age_years_before_present >= min_year_vostok & gas_age_years_before_present <= max_year_vostok)
+
+# View(vostok_co2_subset.df)
   
 # Get things set up for the plot of co2 for subset of the data
 vostok_co2_subset.plot <- vostok_co2_subset.df %>%
@@ -158,8 +150,9 @@ vostok_co2_subset.plot <- vostok_co2_subset.df %>%
   ggplot(aes(gas_age_years_before_present, co2_ppm)) +
   geom_point()+
   geom_line()+
-  geom_smooth(method='lm') 
-
+  geom_smooth(method='lm')
+  #scale_x_reverse(label=comma)
+  
 # Plot the interactive graph
 ggplotly(vostok_co2_subset.plot)
 
@@ -169,7 +162,7 @@ score_model <- lm(co2_ppm ~ gas_age_years_before_present, data=vostok_co2_subset
 summary(score_model)
 
 #####################################
-# ANSWER QUESTIONS 9 - 11 in canvas
+# ANSWER QUESTIONS 9 - 10 in canvas
 #####################################
 
 # *************************
@@ -181,19 +174,10 @@ summary(score_model)
 # recent global temperatures 
 global_temp.df <-read_csv("data/global_temp_cleaned.csv")
 
-# Vostok temperatures
+# Vostok temperatures with years past made negative for simplicity
 vostok_temp.df <- read_tsv("data/vostok.1999.temp.data_cleaned.txt")
-
-# here you are repeating all the steps that were done above. 
-# you can copy and paste the code from above!
-# You have to change: 
-# 1) wherever you are referring to the dataframe:
-#   - the phrase 'loa_co2.df' should be replaced with 'global_temp.df' (the new file name)
-# 2) where you are making a graph:
-#   - the term 'annual_co2_ppm' should be replaced with 'annual_temp_c' (the new column heading)
-# 3) if you make a subset dataframe and plot, 
-#   - you also might want to rename 'global_co2_subset.df' to 'global_temp_subset.df' 
-
+vostok_temp_neg.df <- vostok_temp.df 
+vostok_temp_neg.df[, 2] <- vostok_temp_neg.df[, 2] * -1
 
 # plot global temps
 # first we set up the how we want to use the data to make the graph
@@ -220,7 +204,7 @@ summary(score_model)
 # (what are the units for the slope?)
 
 #####################################
-# ANSWER QUESTION 12 on canvas
+# ANSWER QUESTION 11 on canvas
 #####################################
 
 # If you would like to use only a subset of the data, you can do that here
@@ -248,13 +232,13 @@ score_model <- lm(annual_temp_c ~ year, data=loa_co2_subset.df)
 summary(score_model)
 
 #####################################
-# ANSWER QUESTION 13 on canvas
+# ANSWER QUESTION 12 on canvas
 #####################################
 # to look at the period 1980 and 2020
 # You must click run on each line again
 # then...
 #####################################
-# ANSWER QUESTIONS 14 and 15 on canvas
+# ANSWER QUESTIONS 13 and 14 on canvas
 #####################################
 
 # *************************
@@ -274,33 +258,34 @@ summary(score_model)
 #   - rename 'vostok_co2_subset.df' to 'vostok_temp_subset.df' 
 
          # Set up the plot of Vostok CO2 concentrations
-vostok_co2.plot <- vostok_temp.df %>%
+vostok_temp.plot <- vostok_temp_neg.df %>%
   ggplot(aes(ice_age_years_before_present, temp_c)) +
   geom_point()+
   geom_line()+ # connect the points with lines
   scale_x_continuous(label=comma) # format the x axis tick marks this way
 
 # Plot the interactive graph
-ggplotly(vostok_co2.plot)
+ggplotly(vostok_temp.plot)
 
 #####################################
-# ANSWER QUESTION 16 on canvas
+# ANSWER QUESTION 15 on canvas
 #####################################
+
 # Plot a subset of Vostok temperatures
 # Ok, so you can see that this graph shows really variable temperatures over long periods of time
 # You should identify a period of *rapid* change, and use that to determine the rate of change.
 # Enter the years here, writing over the blue text (up to 6 digits) 
 # default values min = 2342, max = 17695
-min_year_vostok <- 239506
-max_year_vostok <- 241224
+min_year_vostok <- -241224
+max_year_vostok <- -239506
 
 
 # Now make a new dataframe with this subset of the data
-vostok_temp_subset.df <- vostok_temp.df %>%
+vostok_temp_subset.df <- vostok_temp_neg.df %>%
   filter(ice_age_years_before_present >= min_year_vostok & ice_age_years_before_present <= max_year_vostok)
   
 # Get things set up for the plot of co2 for subset of the data
-vostok_co2_subset.plot <- vostok_temp_subset.df %>%
+vostok_temp_subset.plot <- vostok_temp_subset.df %>%
   filter(ice_age_years_before_present >= min_year_vostok & ice_age_years_before_present <= max_year_vostok) %>%
   ggplot(aes(ice_age_years_before_present, temp_c)) +
   geom_point()+
@@ -308,7 +293,7 @@ vostok_co2_subset.plot <- vostok_temp_subset.df %>%
   geom_smooth(method='lm') 
 
 # Plot the interactive graph
-ggplotly(vostok_co2_subset.plot)
+ggplotly(vostok_temp_subset.plot)
 
 # Determine the slope of the line on the subset of data
 # Do the statistical analyses
@@ -316,7 +301,7 @@ score_model <- lm(temp_c ~ ice_age_years_before_present, data=vostok_temp_subset
 summary(score_model)
 
 #####################################
-# ANSWER QUESTION 17 - 20 on canvas
+# ANSWER QUESTION 16 - 19 on canvas
 #####################################
 
 
